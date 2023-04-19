@@ -19,5 +19,5 @@ async function change_div() {
         ficus.style.color = "var(--background_white)";
 
 }
-
+change_div();
 setInterval(change_div, 1000);

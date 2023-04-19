@@ -4,7 +4,7 @@ import datetime
 import time
 
 # main_url = "http://localhost:5000/"
-main_url = "https://test-api-gt7l.onrender.com/"
+main_url = "https://plant-humidity-tracker.onrender.com/"
 
 def get_last():
     sub_url = "data"
@@ -46,6 +46,6 @@ def test_put(runs = None):
 
 
 if __name__=="__main__":
-    test_put(5)
-    get_last()
+    # test_put(5)
+    # get_last()
     download_data()

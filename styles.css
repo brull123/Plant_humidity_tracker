@@ -137,7 +137,7 @@ a:active {
 
 .humidity_rect_in {
     display: inline-block;
-    width: 50%;
+    width: 0%;
     padding-top: 5%;
     padding-bottom: 5%;
     min-height: 1px;
