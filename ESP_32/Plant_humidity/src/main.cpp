@@ -5,14 +5,14 @@
 
 #define DELAY_TIME 1000
 #define DELAY_LONG 10000
-#define PIN_HUMIDITY 27
+#define PIN_HUMIDITY 34
 #define WIFI_SSID "Pe3ny_14D6"
 #define WIFI_PSWD "36469635"
 // #define WIFI_SSID "Marek"
 // #define WIFI_PSWD "123456789"
 #define S_BAUD 115200
 
-#define URL_RENDER "https://test-api-gt7l.onrender.com/data_post"
+#define URL_RENDER "https://plant-humidity-tracker.onrender.com/data_post"
 
 #define WIFI_CONNECT_ERROR "WiFi connection error"
 #define MPU_CONNECT_ERROR "MPU6050 connection error"

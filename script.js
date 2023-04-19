@@ -1,12 +1,12 @@
 const ficus = document.getElementById("ficus_humidity");
-const main_url = "https://test-api-gt7l.onrender.com/";
+const main_url = "https://plant-humidity-tracker.onrender.com/";
 const sub_url = "data";
 var URL = main_url + sub_url;
 
 async function change_div() {
     const response = await fetch(URL);
     const jsonData = await response.json();
-    var rand_perct = Math.abs(jsonData[1].az*100/9.81);
+    var rand_perct = Math.abs(100*(1-jsonData.hum/4096));
     if (rand_perct > 100){
         rand_perct = 100;
     }
