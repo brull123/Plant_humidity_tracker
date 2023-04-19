@@ -20,4 +20,4 @@ async function change_div() {
 
 }
 change_div();
-setInterval(change_div, 1000);
+setInterval(change_div, 5000);
