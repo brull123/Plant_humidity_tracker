@@ -1,0 +1,150 @@
+:root {
+    --primary: #00582B;
+    --green_light: #54C352;
+    --background_white: white;
+    --footer: #EEF0EF;
+    --navbar_start: #E2EEEC;
+    --navbar_end: #EEF4F4;
+
+}
+
+@font-face {
+    font-family: "NexaBold";
+    src: url("./Resources/webfontkit/nexa_bold-webfont.woff");
+}
+
+@font-face {
+    font-family: "NexaLight";
+    src: url("./Resources/webfontkit/nexa_light-webfont.woff");
+}
+
+body {
+    background-color: --background_white;
+    margin: 0;
+    font-family: NexaLight;
+}
+
+h1 {
+    font-family: NexaBold;
+}
+
+h2 {
+    font-family: NexaBold;
+}
+
+a {
+    color: inherit;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+.navbar {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-image: linear-gradient(to bottom, var(--navbar_start), var(--background_white));
+    margin: 0;
+}
+
+.navbar_items_all {
+    float: right;
+    padding-right: 5%;
+}
+
+.navbar_item {
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.navbar_active {
+    border-bottom-style: solid;
+    border-color: var(--green_light);
+    border-width: 2px;
+    font-family: NexaBold;
+}
+
+.container {
+    width: 75%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.footer {
+    background-color: var(--footer);
+    width: 100%;
+    padding-top: 100px;
+    position: fixed;
+    bottom: 0;
+}
+
+.plant_picture_div {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-right: 0;
+    position: relative;
+    bottom: 0;
+    width: 25%;
+    display: inline-block;
+    vertical-align: bottom;
+    /* display: table-cell; */
+}
+.plant_picture {
+    vertical-align: bottom;
+    display: table-cell;
+}
+
+.plant_info {
+    display: inline-block;
+    margin: 10% 0 0 10%;
+    vertical-align: top;
+    width: 40%;
+}
+
+.humidity_rect {
+    display: inline-block;
+    /* padding: 0%; */
+    width: 100%;
+    /* min-height: 1px; */
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--primary);
+    background-color: white;
+}
+
+.humidity_rect_in {
+    display: inline-block;
+    width: 50%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    min-height: 1px;
+    border-radius: 5px;
+    background-color: var(--primary);
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--background_white);
+    font-size: large;
+    font-weight: bolder;
+    font-family: NexaBold;
+    overflow: visible;
+    white-space: nowrap
+}
