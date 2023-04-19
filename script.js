@@ -1,7 +1,15 @@
 const ficus = document.getElementById("ficus_humidity");
+const main_url = "https://test-api-gt7l.onrender.com/";
+const sub_url = "data";
+var URL = main_url + sub_url;
 
 async function change_div() {
-    var rand_perct = Math.random() * 100;
+    const response = await fetch(URL);
+    const jsonData = await response.json();
+    var rand_perct = Math.abs(jsonData[1].az*100/9.81);
+    if (rand_perct > 100){
+        rand_perct = 100;
+    }
     ficus.innerText = rand_perct.toFixed(0) + " %";
     ficus.style.width = rand_perct + "%";
     if (rand_perct < 10) {
@@ -12,4 +20,4 @@ async function change_div() {
 
 }
 
-// setInterval(change_div, 1000);
+setInterval(change_div, 1000);

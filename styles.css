@@ -18,6 +18,8 @@
     src: url("./Resources/webfontkit/nexa_light-webfont.woff");
 }
 
+
+
 body {
     background-color: --background_white;
     margin: 0;
@@ -85,13 +87,14 @@ a:active {
     width: 75%;
     margin: 0 auto;
     position: relative;
+    padding-bottom: 100px;
 }
 
 .footer {
     background-color: var(--footer);
     width: 100%;
     padding-top: 100px;
-    position: fixed;
+    /* position: absolute; */
     bottom: 0;
 }
 
@@ -104,8 +107,10 @@ a:active {
     width: 25%;
     display: inline-block;
     vertical-align: bottom;
+    z-index: -1;
     /* display: table-cell; */
 }
+
 .plant_picture {
     vertical-align: bottom;
     display: table-cell;
@@ -147,4 +152,46 @@ a:active {
     font-family: NexaBold;
     overflow: visible;
     white-space: nowrap
+}
+
+@media (max-width: 1200px) {
+    .container {
+        width: 100%;
+        /* padding: 0; */
+        /* margin: 0; */
+    }
+
+    .plant_picture_div {
+        width: 100%;
+        margin: auto;
+    }
+
+    .plant_picture {
+        height: auto;
+        margin: auto;
+    }
+
+    .plant_info{
+        width: 90%;
+        margin: 5% 0 0 5%;
+    }
+
+    .navbar{
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .navbar_items_all{
+        width: 100%;
+        float: none;
+        padding: 5% 0 0 5%;
+        margin: auto;
+    }
+    .navbar_item{
+        margin: auto;
+        padding: auto;
+        text-align: center;
+        width: 40%;
+        display:inline-block;
+        font-size:x-large;
+    }
 }
