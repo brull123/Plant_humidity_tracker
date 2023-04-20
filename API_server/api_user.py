@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 import time
+import os
 
 # main_url = "http://localhost:5000/"
 main_url = "https://plant-humidity-tracker.onrender.com/"
@@ -10,10 +11,11 @@ def get_last():
     sub_url = "data"
     URL = main_url + sub_url
     r = requests.get(url=URL).text
-    response = json.loads(r)
+    # response = json.loads(r)
     print(r)
 
 def download_data():
+    os.chdir("./API_server")
     filename = "log.json"
     sub_url = "download"
     URL = main_url + sub_url
@@ -30,7 +32,7 @@ def test_put(runs = None):
     if runs is None:
         while True:
             now = json.dumps(datetime.datetime.now(), default=str)
-            payload = [{"id":"status", "stolen":False, "id": "location", "lat": 0, "lon": 0, "elev": 0, "time":now}]
+            payload = {"id":0, "hum": 3600}
             r_2 = requests.put(URL, json=payload).text
             print(r_2, end=" ")
             print(now)
@@ -38,7 +40,7 @@ def test_put(runs = None):
     else:
         for i in range(runs):
             now = json.dumps(datetime.datetime.now(), default=str)
-            payload = [{"id":"status", "stolen":False, "id": "location", "lat": 0, "lon": 0, "elev": 0, "time":now}]
+            payload = {"id":0, "hum": 3600}
             r_2 = requests.put(URL, json=payload).text
             print(r_2, end=" ")
             print(now)

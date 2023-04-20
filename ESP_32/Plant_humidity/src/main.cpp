@@ -4,7 +4,7 @@
 #include <HTTPClient.h>
 
 #define DELAY_TIME 1000
-#define DELAY_LONG 10000
+#define DELAY_LONG 300000
 #define PIN_HUMIDITY 34
 #define WIFI_SSID "Pe3ny_14D6"
 #define WIFI_PSWD "36469635"

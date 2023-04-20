@@ -1,5 +1,6 @@
 const ficus = document.getElementById("ficus_humidity");
-const main_url = "https://plant-humidity-tracker.onrender.com/";
+// const main_url = "https://plant-humidity-tracker.onrender.com/";
+const main_url = "http://localhost:5000/";
 const sub_url = "data";
 var URL = main_url + sub_url;
 
