@@ -3,7 +3,7 @@ from flask_cors import CORS
 import datetime
 
 filename_git = "log.json"
-filename = "log_render.json"
+filename = "/API/data/log_render.json"
 try:
     f = open(filename, "r")
     incoming_data = json.loads(f.read())
