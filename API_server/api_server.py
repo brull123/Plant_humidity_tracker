@@ -2,12 +2,23 @@ from flask import Flask, json, request
 from flask_cors import CORS
 import datetime
 
-filename = "log.json"
-f = open(filename, "r")
+filename_git = "log.json"
+filename = "log_render.json"
 try:
+    f = open(filename, "r")
     incoming_data = json.loads(f.read())
+    print("Log found")
 except:
-    incoming_data = []
+    print("No log found")
+    try:
+        f = open(filename_git, "r")
+        incoming_data = json.loads(f.read())
+        print("Copying log from git")
+    except:
+        incoming_data = []
+        print("Creating empty log")
+    json.dump(incoming_data, open(filename, "w"), indent=4)
+
 
 api = Flask(__name__)
 CORS(api)
