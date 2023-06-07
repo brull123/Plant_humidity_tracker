@@ -48,6 +48,13 @@ def add_data():
         json.dump(incoming_data, open(filename, "w"), indent=4)
         return "OK"
 
+@api.route('/data_post_2', methods=['POST'])
+def add_data():
+    if request.method == "POST":
+        print("Received data")
+        print(request.get_json())
+        return "OK"
+
 
 if __name__ == '__main__':
     filename = "log.json"
