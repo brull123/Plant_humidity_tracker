@@ -4,6 +4,7 @@ import datetime
 
 filename_git = "log.json"
 filename = "/API/data/log_render.json"
+# filename = "log.json"
 try:
     f = open(filename, "r")
     incoming_data = json.loads(f.read())
@@ -49,7 +50,7 @@ def add_data():
         return "OK"
 
 @api.route('/data_post_2', methods=['POST'])
-def add_data():
+def add_data_2():
     if request.method == "POST":
         print("Received data")
         print(request.get_json())
