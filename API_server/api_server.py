@@ -53,7 +53,7 @@ def add_data():
 def add_data_2():
     if request.method == "POST":
         print("Received data")
-        print(request.get_json())
+        print(request.json)
         return "OK"
 
 
