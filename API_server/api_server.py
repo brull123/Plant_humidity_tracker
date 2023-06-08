@@ -6,8 +6,8 @@ import random
 
 # Plant humidity tracker
 filename_git = "log.json"
-filename = "/API/data/log_render.json"
-# filename = "log.json"
+# filename = "/API/data/log_render.json"
+filename = "log.json"
 try:
     f = open(filename, "r")
     incoming_data = json.loads(f.read())
@@ -26,7 +26,9 @@ except:
 filename_git_gps = "log_gps.json"
 filename_gps = "/API/data/log_render_gps.json"
 # filename_gps = "log_gps.json"
-map_path = "/opt/render/project/src/API_server/templates/map.html"
+map_path_dir = "/opt/render/project/src/API_server/templates/"
+# map_path_dir = "./templates/"
+map_path = map_path_dir + "map.html"
 # map_path = "C:/Users/marek/Documents/Programování/Github/Plant_humidity_tracker/API_server/templates/map.html"
 try:
     f = open(filename_gps, "r")
@@ -145,7 +147,8 @@ def static_file():
 
 @api.route('/map')
 def static_file_map():
-    return render_template("map.html")
+    return send_from_directory(map_path_dir, "map.html")
+    # return render_template("map.html")
 
 
 if __name__ == '__main__':
