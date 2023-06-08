@@ -25,6 +25,7 @@ except:
 
 filename_git_gps = "log_gps.json"
 filename_gps = "/API/data/log_render_gps.json"
+map_path = "/project/src/API_server/templates/map.html"
 # filename = "log_gps.json"
 try:
     f = open(filename_gps, "r")
@@ -74,7 +75,9 @@ def generate_map(location):
     #     line.add_to(m)
 
     # Save the map as an HTML file
-    m.save('./templates/map.html')
+    # m.save('./templates/map.html')
+    m.save(map_path)
+
 
 api = Flask(__name__,
             static_url_path="")
@@ -120,6 +123,7 @@ def add_data_gps():
         generate_map(location)
         # incoming["time"] = now
         incoming_data_gps.append(incoming)
+        json.dump(incoming_data, open(filename_gps, "w"), indent=4)
         return "OK"
 
 
@@ -136,9 +140,11 @@ def get_data_gps():
 def static_file():
     return render_template("test_sub_page.html")
 
+
 @api.route('/map')
 def static_file_map():
     return render_template("map.html")
+
 
 if __name__ == '__main__':
     filename = "log.json"
