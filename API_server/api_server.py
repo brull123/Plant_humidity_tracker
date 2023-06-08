@@ -26,7 +26,7 @@ except:
 filename_git_gps = "log_gps.json"
 filename_gps = "/API/data/log_render_gps.json"
 # filename_gps = "log_gps.json"
-map_path = "/project/src/API_server/templates/map.html"
+map_path = "/opt/render/project/src/API_server/templates/map.html"
 # map_path = "C:/Users/marek/Documents/Programování/Github/Plant_humidity_tracker/API_server/templates/map.html"
 try:
     f = open(filename_gps, "r")
