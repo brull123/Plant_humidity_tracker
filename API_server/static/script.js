@@ -61,7 +61,8 @@ async function change_div() {
     //         first_load = false;
     //     }
     // }
-    map_element.setAttribute('src', "http://127.0.0.1:5000/map")
+    map_element.setAttribute('src', main_url + "map")
+    // map_element.setAttribute('src', "http://127.0.0.1:5000/map")
     bat1_element.innerText = bat1_val.toFixed(2) + " V";
     bat2_element.innerText = bat2_val.toFixed(2) + " V";
 }
