@@ -1,6 +1,8 @@
-from flask import Flask, json, request
+from flask import Flask, json, request, send_from_directory, render_template
 from flask_cors import CORS
+import folium
 import datetime
+import random
 
 # Plant humidity tracker
 filename_git = "log.json"
@@ -40,10 +42,47 @@ except:
     json.dump(incoming_data_gps, open(filename_git_gps, "w"), indent=4)
 
 
-api = Flask(__name__)
+def generate_map(location):
+    # Create a map centered on the coordinates of interest
+    m = folium.Map(
+        location=location,
+        zoom_start=16,
+        tiles='cartodbpositron')
+
+    folium.Marker(location).add_to(m)
+
+    folium.Circle(
+        radius=random.random()*100,
+        location=location,
+        popup="The Waterfront",
+        color="#4285F4",
+        fill=True,
+    ).add_to(m)
+
+    # for j in range(len(coords)-1):
+    #     if j >= max_count:
+    #         break
+    #     i = coords[j]
+    #     next_coords = coords[j+1][:1][0]
+    #     color = i[-1]
+    #     i = i[0]
+    #     to_add = [i, next_coords]
+    #     # Create a polyline object with the coordinates
+    #     line = folium.PolyLine(locations=to_add, color=color)
+
+    #     # Add the polyline to the map
+    #     line.add_to(m)
+
+    # Save the map as an HTML file
+    m.save('./templates/map.html')
+
+api = Flask(__name__,
+            static_url_path="")
 CORS(api)
 
 # Plant humidity tracker
+
+
 @api.route('/data', methods=['GET'])
 def get_data():
     global incoming_data
@@ -69,15 +108,20 @@ def add_data():
         return "OK"
 
 # GPS tracker
+
+
 @api.route('/data_post_gps', methods=['POST'])
 def add_data_gps():
     now = json.dumps(datetime.datetime.now(), default=str)
     if request.method == "POST":
         incoming = request.get_json()
-        print(incoming)
+        location = [incoming["lat"], incoming["lon"]]
+        print(location)
+        generate_map(location)
         # incoming["time"] = now
         incoming_data_gps.append(incoming)
         return "OK"
+
 
 @api.route('/data_get_gps', methods=['GET'])
 def get_data_gps():
@@ -87,6 +131,14 @@ def get_data_gps():
         return json.dumps(incoming_data_gps[-1])
 
 
+# HTML page
+@api.route('/')
+def static_file():
+    return render_template("test_sub_page.html")
+
+@api.route('/map')
+def static_file_map():
+    return render_template("map.html")
 
 if __name__ == '__main__':
     filename = "log.json"
@@ -95,4 +147,4 @@ if __name__ == '__main__':
         incoming_data = json.loads(f.read())
     except:
         incoming_data = []
-    api.run()
+    api.run(debug=True)
