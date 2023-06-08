@@ -6,8 +6,8 @@ import random
 
 # Plant humidity tracker
 filename_git = "log.json"
-# filename = "/API/data/log_render.json"
-filename = "log.json"
+filename = "/API/data/log_render.json"
+# filename = "log.json"
 try:
     f = open(filename, "r")
     incoming_data = json.loads(f.read())
@@ -46,6 +46,14 @@ except:
     json.dump(incoming_data_gps, open(filename_git_gps, "w"), indent=4)
     json.dump(incoming_data_gps, open(filename_gps, "w"), indent=4)
 
+def log_to_coords(log):
+    coords = []
+    for i in log:
+        if "lat" in i and "lon" in i:
+            lat = i["lat"]
+            lon = i["lon"]
+            coords.append([lat, lon])
+    return coords
 
 def generate_map(location):
     # Create a map centered on the coordinates of interest
@@ -64,19 +72,21 @@ def generate_map(location):
         fill=True,
     ).add_to(m)
 
-    # for j in range(len(coords)-1):
-    #     if j >= max_count:
-    #         break
-    #     i = coords[j]
-    #     next_coords = coords[j+1][:1][0]
-    #     color = i[-1]
-    #     i = i[0]
-    #     to_add = [i, next_coords]
-    #     # Create a polyline object with the coordinates
-    #     line = folium.PolyLine(locations=to_add, color=color)
+    coords = log_to_coords(incoming_data_gps)
 
-    #     # Add the polyline to the map
-    #     line.add_to(m)
+    for j in range(len(coords)-1):
+        i = coords[j]
+        next_coords = coords[j+1]
+        # next_coords = coords[j+1][:1][0]
+        color = "#000000"
+        # i = i[0]
+        to_add = [i, next_coords]
+        # print(to_add)
+        # Create a polyline object with the coordinates
+        line = folium.PolyLine(locations=to_add, color=color)
+
+        # Add the polyline to the map
+        line.add_to(m)
 
     # Save the map as an HTML file
     # m.save('./templates/map.html')
@@ -127,6 +137,7 @@ def add_data_gps():
         incoming_data_gps.append(incoming)
         json.dump(incoming_data, open(filename_gps, "w"), indent=4)
         print(location)
+        log_to_coords(incoming_data_gps)
         generate_map(location)
         return "OK"
 
@@ -158,4 +169,4 @@ if __name__ == '__main__':
         incoming_data = json.loads(f.read())
     except:
         incoming_data = []
-    api.run(debug=True)
+    api.run(debug=False)
