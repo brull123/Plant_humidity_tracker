@@ -42,6 +42,7 @@ except:
         incoming_data_gps = []
         print("Creating empty log")
     json.dump(incoming_data_gps, open(filename_git_gps, "w"), indent=4)
+    json.dump(incoming_data_gps, open(filename_gps, "w"), indent=4)
 
 
 def generate_map(location):
@@ -77,6 +78,7 @@ def generate_map(location):
 
     # Save the map as an HTML file
     # m.save('./templates/map.html')
+    print("Saving to", map_path)
     m.save(map_path)
 
 
@@ -120,11 +122,10 @@ def add_data_gps():
     if request.method == "POST":
         incoming = request.get_json()
         location = [incoming["lat"], incoming["lon"]]
-        print(location)
-        generate_map(location)
-        # incoming["time"] = now
         incoming_data_gps.append(incoming)
         json.dump(incoming_data, open(filename_gps, "w"), indent=4)
+        print(location)
+        generate_map(location)
         return "OK"
 
 
