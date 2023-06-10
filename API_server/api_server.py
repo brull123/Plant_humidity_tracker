@@ -3,11 +3,13 @@ from flask_cors import CORS
 import folium
 import datetime
 import random
+from math import sin, cos, sqrt, atan2, radians
+
 
 # Plant humidity tracker
 filename_git = "log.json"
-filename = "/API/data/log_render.json"
-# filename = "log.json"
+# filename = "/API/data/log_render.json"
+filename = "log.json"
 try:
     f = open(filename, "r")
     incoming_data = json.loads(f.read())
@@ -24,10 +26,10 @@ except:
     json.dump(incoming_data, open(filename_git, "w"), indent=4)
 
 filename_git_gps = "log_gps.json"
-filename_gps = "/API/data/log_render_gps.json"
-# filename_gps = "log_gps.json"
-map_path_dir = "/opt/render/project/src/API_server/templates/"
-# map_path_dir = "./templates/"
+# filename_gps = "/API/data/log_render_gps.json"
+filename_gps = "log_gps.json"
+# map_path_dir = "/opt/render/project/src/API_server/templates/"
+map_path_dir = "./templates/"
 map_path = map_path_dir + "map.html"
 # map_path = "C:/Users/marek/Documents/Programování/Github/Plant_humidity_tracker/API_server/templates/map.html"
 try:
@@ -46,6 +48,7 @@ except:
     json.dump(incoming_data_gps, open(filename_git_gps, "w"), indent=4)
     json.dump(incoming_data_gps, open(filename_gps, "w"), indent=4)
 
+
 def log_to_coords(log):
     coords = []
     for i in log:
@@ -54,6 +57,24 @@ def log_to_coords(log):
             lon = i["lon"]
             coords.append([lat, lon])
     return coords
+
+
+def distance_from_coords(current, last):
+
+    R = 6378.0
+
+    lat1, lon1 = current
+    lat2, lon2 = last
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    distance = R * c
+    return distance
+
 
 def generate_map(location):
     # Create a map centered on the coordinates of interest
@@ -134,10 +155,27 @@ def add_data_gps():
     if request.method == "POST":
         incoming = request.get_json()
         location = [incoming["lat"], incoming["lon"]]
+        last = log_to_coords(incoming_data_gps)
+        if last:
+            last = log_to_coords(incoming_data_gps)[-1]
+        incoming["time"] = now
+        if last:
+            last_entry = incoming_data_gps[-1]
+
+            t_now = datetime.datetime.strptime(
+                str(now.split(".")[0])[1:], '%Y-%m-%d %H:%M:%S')
+            t_last = datetime.datetime.strptime(
+                str(last_entry["time"].split(".")[0])[1:], '%Y-%m-%d %H:%M:%S')
+            time_diff = abs(t_last-t_now).total_seconds()
+            dist = distance_from_coords(location, last)
+            print(dist)
+            speed = 3.6*dist / time_diff
+            print(speed)
+            incoming["speed"] = speed
         incoming_data_gps.append(incoming)
         json.dump(incoming_data, open(filename_gps, "w"), indent=4)
-        print(location)
-        log_to_coords(incoming_data_gps)
+        # print(location)
+
         generate_map(location)
         return "OK"
 
@@ -169,4 +207,4 @@ if __name__ == '__main__':
         incoming_data = json.loads(f.read())
     except:
         incoming_data = []
-    api.run(debug=False)
+    api.run(debug=True)

@@ -24,14 +24,14 @@ async function change_div() {
     console.log(jsonData);
     var lat_val = jsonData.lat;
     var lon_val = jsonData.lon;
-    // var speed_val = jsonData.speed;
+    var speed_val = jsonData.speed;
     // locked_val = jsonData.locked;
     var bat1_val = jsonData.bat1;
     var bat2_val = jsonData.bat2;
 
     lat_element.innerText = lat_val.toFixed(5);
     lon_element.innerText = lon_val.toFixed(5);
-    // speed_element.innerText = speed_val.toFixed(2) + " km/h";
+    speed_element.innerText = speed_val.toFixed(2) + " km/h";
     // if (locked_val && speed_val > 1) {
     //     stolen_element.innerText = "Stolen";
     // } else {
