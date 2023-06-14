@@ -5,8 +5,8 @@ import requests
 import random
 import json
 
-# URL = "http://localhost:5000/"
-URL = "https://plant-humidity-tracker.onrender.com/"
+URL = "http://localhost:5000/"
+# URL = "https://plant-humidity-tracker.onrender.com/"
 
 
 def map_speed_to_color(speed, max_speed):
@@ -99,7 +99,7 @@ def simulate_bike_put_data(counter, speed, lat, lon):
 
 
 counter = 0
-total_len = 30*60
+total_len = 60*60
 interval = 10
 lock_state = False
 while counter < len(coords):

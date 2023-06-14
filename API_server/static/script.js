@@ -24,43 +24,44 @@ async function change_div() {
     console.log(jsonData);
     var lat_val = jsonData.lat;
     var lon_val = jsonData.lon;
+    var stolen_val = jsonData.stolen;
     var speed_val = jsonData.speed;
-    // locked_val = jsonData.locked;
+    locked_val = jsonData.locked;
     var bat1_val = jsonData.bat1;
     var bat2_val = jsonData.bat2;
 
     lat_element.innerText = lat_val.toFixed(5);
     lon_element.innerText = lon_val.toFixed(5);
     speed_element.innerText = speed_val.toFixed(2) + " km/h";
-    // if (locked_val && speed_val > 1) {
-    //     stolen_element.innerText = "Stolen";
-    // } else {
-    //     stolen_element.innerText = "Safe";
-    // }
-    // lock_element.innerText = locked_val;
-    // if (locked_val) {
-    //     if (locked_val == lock_state) {
-    //         button_lock_element.innerText = "Unlock";
-    //     }
-    //     lock_element.innerText = "Locked";
-    //     if (first_load) {
-    //         lock_state = locked_val;
-    //         button_lock_element.style.background = "#FF0000"
-    //         button_lock_element.innerText = "Unlock";
-    //         first_load = false;
-    //     }
-    // } else {
-    //     lock_element.innerText = "Unlocked";
-    //     if (locked_val == lock_state) {
-    //         button_lock_element.innerText = "Lock";
-    //     }
-    //     if (first_load) {
-    //         lock_state = locked_val;
-    //         button_lock_element.style.background = "#4CAF50"
-    //         button_lock_element.innerText = "Lock";
-    //         first_load = false;
-    //     }
-    // }
+    if (stolen_val == true) {
+        stolen_element.innerText = "Stolen";
+    } else {
+        stolen_element.innerText = "Safe";
+    }
+    lock_element.innerText = locked_val;
+    if (locked_val) {
+        if (locked_val == lock_state) {
+            button_lock_element.innerText = "Unlock";
+        }
+        lock_element.innerText = "Locked";
+        if (first_load) {
+            lock_state = locked_val;
+            button_lock_element.style.background = "#FF0000"
+            button_lock_element.innerText = "Unlock";
+            first_load = false;
+        }
+    } else {
+        lock_element.innerText = "Unlocked";
+        if (locked_val == lock_state) {
+            button_lock_element.innerText = "Lock";
+        }
+        if (first_load) {
+            lock_state = locked_val;
+            button_lock_element.style.background = "#4CAF50"
+            button_lock_element.innerText = "Lock";
+            first_load = false;
+        }
+    }
     map_element.setAttribute('src', main_url + "map")
     // map_element.setAttribute('src', "http://127.0.0.1:5000/map")
     bat1_element.innerText = bat1_val.toFixed(2) + " V";
@@ -87,11 +88,11 @@ async function lock_state_set() {
         }
         button_lock_element.style.background = "#4CAF50"
     }
-    var sub_url = "put_data_web";
+    var sub_url = "data_post_web";
     var URL = main_url + sub_url;
     var dataObject = [{ id: 0, locked: lock_state }];
     const response = await fetch(URL, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },

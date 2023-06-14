@@ -32,6 +32,10 @@ filename_gps = "log_gps.json"
 map_path_dir = "./templates/"
 map_path = map_path_dir + "map.html"
 # map_path = "C:/Users/marek/Documents/Programování/Github/Plant_humidity_tracker/API_server/templates/map.html"
+
+lock_state = None
+location_locked = None
+
 try:
     f = open(filename_gps, "r")
     incoming_data_gps = json.loads(f.read())
@@ -76,7 +80,7 @@ def distance_from_coords(current, last):
     return distance
 
 
-def generate_map(location):
+def generate_map(location): #, location_locked):
     # Create a map centered on the coordinates of interest
     m = folium.Map(
         location=location,
@@ -92,6 +96,15 @@ def generate_map(location):
         color="#4285F4",
         fill=True,
     ).add_to(m)
+
+    if lock_state and location_locked is not None:
+        folium.Circle(
+            radius=200,
+            location=location_locked,
+            popup="The Waterfront",
+            color="#900C3F",
+            fill=True,
+        ).add_to(m)
 
     coords = log_to_coords(incoming_data_gps)
 
@@ -111,7 +124,7 @@ def generate_map(location):
 
     # Save the map as an HTML file
     # m.save('./templates/map.html')
-    print("Saving to", map_path)
+    # print("Saving to", map_path)
     m.save(map_path)
 
 
@@ -125,7 +138,7 @@ CORS(api)
 @api.route('/data', methods=['GET'])
 def get_data():
     global incoming_data
-    print(incoming_data[-1])
+    # print(incoming_data[-1])
     return json.dumps(incoming_data[-1])
 
 
@@ -155,10 +168,17 @@ def add_data_gps():
     if request.method == "POST":
         incoming = request.get_json()
         location = [incoming["lat"], incoming["lon"]]
+        incoming["locked"] = lock_state
         last = log_to_coords(incoming_data_gps)
         if last:
             last = log_to_coords(incoming_data_gps)[-1]
         incoming["time"] = now
+        if lock_state and location_locked is not None:
+            dist = distance_from_coords(location, location_locked)
+            # print("Printing distance")
+            # print(dist)
+            if dist > 10:
+                incoming["stolen"] = True
         if last:
             last_entry = incoming_data_gps[-1]
 
@@ -168,9 +188,9 @@ def add_data_gps():
                 str(last_entry["time"].split(".")[0])[1:], '%Y-%m-%d %H:%M:%S')
             time_diff = abs(t_last-t_now).total_seconds()
             dist = distance_from_coords(location, last)
-            print(dist)
+            # print(dist)
             speed = 3.6*dist / time_diff
-            print(speed)
+            # print(speed)
             incoming["speed"] = speed
         incoming_data_gps.append(incoming)
         json.dump(incoming_data, open(filename_gps, "w"), indent=4)
@@ -179,6 +199,17 @@ def add_data_gps():
         generate_map(location)
         return "OK"
 
+@api.route('/data_post_web', methods=['POST'])
+def add_data_web():
+    global lock_state
+    global location_locked
+    incoming = request.get_json()
+    lock_state = incoming[0]["locked"]
+    if lock_state:
+        location_locked = [ incoming_data_gps[-1]["lat"], incoming_data_gps[-1]["lon"]]
+    # print(lock_state)
+    # print(location_locked)
+    return "OK"
 
 @api.route('/data_get_gps', methods=['GET'])
 def get_data_gps():
