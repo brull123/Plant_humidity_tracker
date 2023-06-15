@@ -118,7 +118,7 @@ def generate_map(location):  # , location_locked):
             to_add = [i, next_coords]
         # print(to_add)
         # Create a polyline object with the coordinates
-        line = folium.PolyLine(locations=to_add, color=color)
+            line = folium.PolyLine(locations=to_add, color=color)
 
         # Add the polyline to the map
         line.add_to(m)
