@@ -5,8 +5,8 @@ import requests
 import random
 import json
 
-URL = "http://localhost:5000/"
-# URL = "https://plant-humidity-tracker.onrender.com/"
+# URL = "http://localhost:5000/"
+URL = "https://plant-humidity-tracker.onrender.com/"
 
 
 def map_speed_to_color(speed, max_speed):

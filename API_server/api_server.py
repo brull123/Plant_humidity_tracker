@@ -80,7 +80,7 @@ def distance_from_coords(current, last):
     return distance
 
 
-def generate_map(location): #, location_locked):
+def generate_map(location):  # , location_locked):
     # Create a map centered on the coordinates of interest
     m = folium.Map(
         location=location,
@@ -114,7 +114,8 @@ def generate_map(location): #, location_locked):
         # next_coords = coords[j+1][:1][0]
         color = "#000000"
         # i = i[0]
-        to_add = [i, next_coords]
+        if i != [0, 0] and next_coords != [0, 0]:
+            to_add = [i, next_coords]
         # print(to_add)
         # Create a polyline object with the coordinates
         line = folium.PolyLine(locations=to_add, color=color)
@@ -138,7 +139,7 @@ CORS(api)
 @api.route('/data', methods=['GET'])
 def get_data():
     global incoming_data
-    # print(incoming_data[-1])
+    print(incoming_data[-1])
     return json.dumps(incoming_data[-1])
 
 
@@ -199,6 +200,7 @@ def add_data_gps():
         generate_map(location)
         return "OK"
 
+
 @api.route('/data_post_web', methods=['POST'])
 def add_data_web():
     global lock_state
@@ -206,10 +208,12 @@ def add_data_web():
     incoming = request.get_json()
     lock_state = incoming[0]["locked"]
     if lock_state:
-        location_locked = [ incoming_data_gps[-1]["lat"], incoming_data_gps[-1]["lon"]]
+        location_locked = [incoming_data_gps[-1]
+                           ["lat"], incoming_data_gps[-1]["lon"]]
     # print(lock_state)
     # print(location_locked)
     return "OK"
+
 
 @api.route('/data_get_gps', methods=['GET'])
 def get_data_gps():
